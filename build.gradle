@@ -7,12 +7,18 @@ buildscript {
         jcenter()
         
     }
+
+    configurations {
+        ktlint
+    }
+
+    ext {
+        ktlint_version = "0.35.0"
+    }
+    
     dependencies {
         classpath 'com.android.tools.build:gradle:3.6.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
     }
 }
 
@@ -24,6 +30,20 @@ allprojects {
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+dependencies {
+    ktlint "com.pinterest:ktlint:$ktlint_version"
+}
+
+task ktlint(type: JavaExec, group: "verification") {
+    description = "Check Kotlin code style."
+    main = "com.pinterest.ktlint.Main"
+    classpath = configurations.ktlint
+    args "**/*.kt", "!**/bin/**/*.kt", "!**/*InstrumentedTest.kt", "--reporter=plain?group_by_file&color", "no-wildcard-imports = false"
+}
+
+task ktlintFormat(type: JavaExec, group: "formatting") {
+    description = "Fix Kotlin code style deviations."
+    main = "com.pinterest.ktlint.Main"
+    classpath = configurations.ktlint
+    args "-F", "**/*.kt", "!**/bin/**/*.kt", "!**/*InstrumentedTest.kt", "--reporter=plain?group_by_file&color", "no-wildcard-imports = false"
 }
