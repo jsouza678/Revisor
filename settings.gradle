@@ -1,2 +1,6 @@
+include ':data'
+include ':vehiclescatalog'
+include ':resource-components'
+include ':domain'
 rootProject.name='Revisor'
 include ':app'

@@ -1,6 +1,9 @@
 package com.souza.revisor
 
 import android.app.Application
+import com.souza.di.dataModule
+import com.souza.di.domainModule
+import com.souza.di.vehiclesCatalogModule
 import org.koin.android.BuildConfig
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.logger.AndroidLogger
@@ -17,7 +20,11 @@ class Application : Application() {
             androidContext(this@Application)
             logger(koinLogger())
             modules(
-                    modules = listOf()
+                modules = listOf(
+                    domainModule,
+                    vehiclesCatalogModule,
+                    dataModule
+                )
             )
         }
     }

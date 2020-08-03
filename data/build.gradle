@@ -1,0 +1,50 @@
+import com.souza.buildSrc.Dependencies
+import com.souza.buildSrc.Versions
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion Versions.compile_sdk
+    buildToolsVersion Versions.build_tools
+
+    defaultConfig {
+        minSdkVersion Versions.min_sdk
+        targetSdkVersion Versions.target_sdk
+        versionCode Versions.version_code
+        versionName Versions.version_name
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    api project(Dependencies.Module.domain)
+
+    implementation Dependencies.Core.kotlin_stdlib_jdk7
+    implementation Dependencies.Core.appcompat
+    implementation Dependencies.Core.core_ktx
+    implementation Dependencies.Remote.retrofit
+    implementation Dependencies.Remote.retrofit2_coroutines_adapter
+    implementation Dependencies.Core.coroutines_core
+    implementation Dependencies.Core.coroutines_android
+    implementation Dependencies.Remote.moshi
+    implementation Dependencies.Remote.moshi_converter
+    implementation Dependencies.Remote.moshi_kotlin
+    implementation Dependencies.Remote.okhttp_logging_interceptor
+    implementation Dependencies.UI.constraint_layout
+    implementation Dependencies.DI.koin
+    testImplementation Dependencies.Testing.junit
+    androidTestImplementation Dependencies.Testing.junit_android
+}

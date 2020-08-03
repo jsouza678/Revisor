@@ -1,28 +1,22 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-
 import com.souza.buildSrc.Dependencies
 import com.souza.buildSrc.Versions
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion Versions.compile_sdk
     buildToolsVersion Versions.build_tools
 
     defaultConfig {
-        applicationId "com.souza.revisor"
         minSdkVersion Versions.min_sdk
         targetSdkVersion Versions.target_sdk
         versionCode Versions.version_code
         versionName Versions.version_name
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        compileOptions {
-            sourceCompatibility JavaVersion.VERSION_1_8
-            targetCompatibility JavaVersion.VERSION_1_8
-        }
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -31,19 +25,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    implementation project(Dependencies.Module.resource_components)
-    implementation project(Dependencies.Module.domain)
-    implementation project(Dependencies.Module.data)
-    implementation project(Dependencies.Module.vehiclescatalog)
+    implementation fileTree(dir: "libs", include: ["*.jar"])
 
     implementation Dependencies.Core.kotlin_stdlib_jdk7
+    implementation Dependencies.Core.appcompat
     implementation Dependencies.Core.core_ktx
-    implementation Dependencies.DI.koin
-    implementation Dependencies.DI.koin_view_model
+    implementation Dependencies.UI.constraint_layout
 }
